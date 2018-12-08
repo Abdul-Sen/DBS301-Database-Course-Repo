@@ -1,0 +1,36 @@
+CREATE TABLE "STOP" (
+  "stopID" <type>,
+  "stopType" <type>,
+  "nameID" <type>,
+  "locationID" <type>
+);
+
+CREATE INDEX "P.K" ON  "STOP" ("stopID");
+
+CREATE INDEX "F.K" ON  "STOP" ("nameID", "locationID");
+
+CREATE TABLE "NAME" (
+  "nameID" <type>,
+  "stopName" <type>
+);
+
+CREATE INDEX "P.K" ON  "NAME" ("nameID");
+
+CREATE TABLE "LOCATION" (
+  "locationID" <type>,
+  "streetNum" <type>,
+  "streetName" <type>,
+  "city" <type>
+);
+
+CREATE INDEX "P.K" ON  "LOCATION" ("locationID");
+
+CREATE TABLE "SCHEDULE" (
+  "routeNum" <type>,
+  "stopID(F.K)" <type>,
+  "seqOnRoute" <type>,
+  "status" <type>
+);
+
+CREATE INDEX "P.K" ON  "SCHEDULE" ("routeNum", "stopID(F.K)");
+

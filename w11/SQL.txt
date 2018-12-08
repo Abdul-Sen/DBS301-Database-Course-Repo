@@ -1,0 +1,28 @@
+select * from cities;
+select * from departments;
+select * from employees;
+create view CA_CITY_VU as
+select street_address, city, state_province
+from cities
+where country_id = 'CA';
+select * from ca_city_vu;
+
+
+create or replace view CA_CITY_VU as
+select street_address "Street", city "City", state_province "Prov"
+from cities
+where country_id IN('CA','IT');
+select * from ca_city_vu;
+
+create or replace view city_depname_vu as
+select e.last_name "Lname", d.department_name "DName", l.city "City", l.state_province "Prov"
+from employees e join departments d
+ON e.department_id = d.department_id
+join locations l
+on d.location_id = l.location_id
+where l.country_id != 'US';
+
+drop view city_depname_vu;
+select * from locations;
+
+select * from;

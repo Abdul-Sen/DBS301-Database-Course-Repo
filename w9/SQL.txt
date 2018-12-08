@@ -1,0 +1,62 @@
+select * from locations;
+
+desc locations;
+
+create table CITIES AS
+(select * from locations
+where location_id < 2000);
+desc cities;
+
+select * from cities;
+
+create table towns as
+(select * from locations
+where location_id < 1500);
+desc towns;
+select * from towns;
+
+create or replace view CAN_CITY_VU as
+select Street_Address, Postal_Code, City, State_Province 
+from cities
+where COUNTRY_ID = 'CA';
+
+select * from can_city_vu;
+select * from cities;
+
+create or replace view CAN_CITY_VU as
+select Street_Address "Str_Adr", Postal_Code "P_code", City, State_Province "Prov" 
+from cities
+where COUNTRY_ID = 'CA' OR country_id = 'IT';
+
+select * from locations;
+select * from departments;
+
+create or replace view city_dname_vu as
+select d.department_name "DName", l.city "City", l.state_province "Prov"
+from locations l left join departments d
+on (l.location_id = d.location_id)
+where l.country_id != 'US';
+
+select * from city_dname_vu;
+
+select * from city_dname_vu;
+
+drop view city_dname_vu;
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

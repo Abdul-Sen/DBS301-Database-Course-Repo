@@ -1,0 +1,126 @@
+select * from employees;
+--Q1
+create table salesrep as
+(select employee_id "RepId", first_name "FName", last_name "LName", phone_number "Phone#", Salary, commission_pct "Commission"
+from employees
+where department_id = 80);
+
+select * from salesrep;
+
+--Q2a
+CREATE TABLE CUST
+(CUST#                    NUMBER(6),
+ CUSTNAME            VARCHAR2(30),
+ CITY                        VARCHAR2(20),
+ RATING                  CHAR(1),
+ COMMENTS           VARCHAR2(200),
+ SALESREP#           NUMBER(7)
+);
+select * from cust;
+INSERT INTO CUST VALUES (501, 'ABC LTD', 'Montreal', 'C', NULL, 201) ;
+INSERT INTO CUST values (701, 'MIKE and SAM inc.', 'Kingston', 'A', NULL, 102);
+INSERT INTO CUST values (703, 'RED PLANET', 'Mississauga', 'C', NULL, 107);
+INSERT INTO CUST  values (717, 'blue sky ltd', 'Regina', 'D', NULL, 102);
+--Mine
+insert into cust values (502,'Black Giant','Ottawa', 'B',NULL,202);
+insert into cust values (503,'Mother Goose','London', 'B',NULL,202);
+insert into cust values (701,'BLUE SKY LTD','Vancouver', 'B',NULL,102);
+
+create table GOODCUST as
+( select cust# "CustId", custname "Name", city "Location", salesrep# "RepId"
+from cust
+where rating IN ('B','A')
+);
+select * from goodcust;
+alter table salesrep
+add "JobCode" varchar2(12);
+desc salesrep;
+
+alter table salesrep
+drop column "JOBCODE";
+
+alter table salesrep
+modify salary not null;
+desc salesrep;
+select * from salesrep;
+--5
+alter table salesrep
+modify "FName" varchar2(37);
+--6
+alter table salesrep
+drop column "JobCode";
+desc salesrep;
+--7
+select * from cust;
+
+update goodcust
+set "CustId" = 717
+where "Name" = 'BLUE SKY LTD';
+
+alter table goodcust
+add constraint CUSTID_PK
+PRIMARY KEY("CustId");
+
+desc salesrep;
+
+alter table salesrep
+add constraint REPID_PK
+PRIMARY KEY("RepId");
+
+select CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME
+from user_constraints
+where  table_name = 'SALESREP';
+
+select * from salesrep;
+select * from goodcust;
+desc salesrep;
+
+alter table goodcust
+add constraint NAME_UK
+Unique ("Name");
+
+ALTER TABLE SALESREP
+add constraint phone_uk
+unique ("Phone#");
+
+
+
+alter table salesrep
+add constraint salary_ck
+check (SALARY BETWEEN 6000 AND 12000);
+
+ALTER TABLE SALESREP
+ADD CONSTRAINT COMMISSION_CK
+CHECK ("Commission" <= 0.5);
+
+select * from goodcust;
+select * from salesrep;
+DESC GOODCUST;
+DESC SALESREP;
+
+alter table goodcust
+add constraint repId_FK
+foreign key("RepId")
+REFERENCES salesrep("RepId");
+
+select CONSTRAINT_NAME, CONSTRAINT_TYPE, TABLE_NAME
+from user_constraints
+where  table_name = 'SALESREP';
+
+update goodcust
+set "RepId" = NULL;
+
+alter table goodcust
+drop constraint repId_FK;
+
+alter table salesrep
+drop constraint salary_ck;
+
+alter table salesrep
+add constraint salary_ck
+check (SALARY BETWEEN 5000 and 15000);
+
+SELECT  constraint_name, constraint_type, search_condition, table_name
+FROM     user_constraints       
+WHERE table_name IN ('SALESREP','GOODCUST')
+ORDER  BY  4 , 2;

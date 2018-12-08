@@ -1,0 +1,147 @@
+select * from departments;
+select * from employees;
+
+select department_id,count(employee_id), 
+from employees
+group by department_id;
+
+SELECT COUNT (DISTINCT department_id)
+FROM employees;
+
+select hire_date
+from employees
+where hire_date = (;
+select count(hire_date)
+from employees;
+
+select * from employees
+where hire_date = '00-01-29';
+
+select hire_date
+from employees
+group by hire_date
+Having count(hire_date) =2;
+
+SELECT hire_date, ALIAS1
+FROM(SELECT hire_date, COUNT(hire_date) ALIAS1
+    FROM employees
+    GROUP BY hire_date
+    ORDER BY COUNT(hire_date) DESC)
+WHERE ROWNUM = 1;
+
+
+--Question 3
+create view DEPT50 as
+select employee_id "EMPNO", last_name "EMPLOYEE", department_id "DEPTNO"
+from employees
+where department_id = 50;
+
+--Question 4
+create view emp_hired as
+select trim(w.first_name) || ' ' || trim(w.last_name) "Employee", w.hire_date "Emp Hired",
+trim(m.first_name) || ' ' || trim(m.last_name) "Manager", m.hire_date "Mgr Hired"
+from employees w, employees m
+where m.employee_id = w.manager_id
+AND w.hire_date < m.hire_date;
+select * from emp_hired;
+--Question 6
+select last_name, to_char(hire_date,'Month') "Month of hire", hire_date
+from employees
+where hire_date like '%-03-%';
+
+select * from employees;
+select to_char(sysdate,'Month')
+from dual;
+--Question 7
+--What do you mean by "groupings"
+select department_id, job_id, manager_id, max(salary), min(salary)
+from employees
+group by department_id, job_id, manager_id
+having max(salary) != min(salary);
+
+--Question 8
+select * from emp;
+drop synonym emp;
+drop table emp;
+create table EMP 
+(select employee_id "NO", FIRST_NAME, LAST_NAME, SALARY, job_id "JOB_TITLE"
+from employees
+where employee_id = -1);
+
+
+
+create table EMP as
+(select employee_id "NO", FIRST_NAME, LAST_NAME, SALARY, job_id "JOB_TITLE"
+from employees
+where employee_id = -1);
+
+select * from emp;
+
+--Question 9 A
+create table member
+(
+MEMBER_ID NUMBER(10) not null, --UQ auto when we make PK
+LAST_NAME VARCHAR2(25) not null,
+FIRST_NAME VARCHAR2(25),
+ADDRESS VARCHAR2(100),
+CITY VARCHAR2(30),
+PHONE VARCHAR2(15),
+JOIN_DATE DATE DEFAULT sysdate,
+
+CONSTRAINT MEMBER_ID_PK
+PRIMARY KEY(MEMBER_ID)
+);
+select * from member;
+--Question 9 B
+create table TITLE
+(
+    TITLE_ID NUMBER(10) CONSTRAINT TITLE_ID_PK PRIMARY KEY,
+    TITLE VARCHAR2(60) NOT NULL,
+    "DESCRIPTION" VARCHAR2(400) NOT NULL,
+    RATING VARCHAR2(4) CONSTRAINT RATING_CK CHECK( RATING IN ('G','PG','R','NC17','NR')),
+    "CATEGORY" VARCHAR2(20) CONSTRAINT CATEGORY_CK CHECK(category IN ('DRAMA','COMEDY','ACTION','CHILD','SIFI','DOCUMENTARY')),
+    RELEASE_DATE DATE
+);
+SELECT * FROM TITLE;
+DESC TITLE;
+
+create table title_copy
+(
+    copy_id number(10),
+    title_id NUMBER(10) CONSTRAINT TITLEID_FK REFERENCES TITLE(TITLE_ID),
+    STATUS VARCHAR2(15) NOT NULL CONSTRAINT STATUS_CK CHECK(STATUS IN ('AVAILABLE','DESTROYED','RENTED','RESERVED')),
+
+    CONSTRAINT COPYID_TITLEID_PK
+    PRIMARY KEY(COPY_ID, TITLE_ID)
+);
+
+--Q 10
+CREATE SEQUENCE MEMBER_ID_SEQ
+INCREMENT BY 1
+START WITH 101
+MAXVALUE 9999
+NOCACHE
+NOCYCLE;
+
+CREATE SEQUENCE TITLE_ID_SEQ
+INCREMENT BY 1
+START WITH 92
+MAXVALUE 9999
+NOCACHE
+NOCYCLE;
+
+select sequence_name, increment_by, last_number
+from user_sequences
+where sequence_name IN ('MEMBER_ID_SEQ','TITLE_ID_SEQ');
+
+
+--Q5
+create table Location_Index
+(
+    Deptno Number(4) constraint DEPTNO_PK primary key,
+    Dname varchar2(30)
+);
+
+CREATE INDEX LOCATIONS_PK_IDX
+ON Location_Index(Deptno);
+

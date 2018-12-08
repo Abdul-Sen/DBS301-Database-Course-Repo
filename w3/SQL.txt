@@ -1,0 +1,69 @@
+//1
+select to_char(sysdate +1, 'Month DD"th of year" YYYY') "Tomorrow"
+from dual;
+//1
+
+select * from employees;
+//2
+select last_name, first_name, salary, salary*1.7 "Good Salary", ((salary*1.7)- salary)*12 "Annual Pay Increase"
+from employees
+where department_id IN (20,50,60);
+//2
+
+//3
+select trim(last_name) || ', '|| trim(first_name) || ' ' || trim(job_id) REPLACE('ST','ST','Store') "Full name"  
+from employees
+where first_name LIKE 'C%'
+OR
+first_name LIKE 'K%'
+AND
+last_name LIKE '%s'
+ORDER BY last_name;
+//3
+
+select replace('Jack and Jill','Ja','ZZ')
+from dual;
+
+//===============================================================ATMPT 2=================//
+
+select * from employees;
+//3
+select REPLACE (Upper(trim(last_name)) || ', '|| upper(trim(first_name)) || ' is ' || initcap(trim(job_id)),'St_','Store ') "Person and Job"
+from employees
+where first_name LIKE 'C%' OR first_name LIKE 'K%'
+AND
+last_name LIKE '%s'
+ORDER BY last_name;
+//3
+//3
+select upper(trim(last_name)) || ', ' || upper( trim(first_name)) || ' is ' || replace(trim(job_id),'ST_', 'Store ')
+from employees;
+//3
+//4
+select last_name, hire_date, round((sysdate-hire_date)/365,0) "Years worked"
+from employees
+where hire_date<'92-01-01'
+order by "Years worked" desc;
+//4
+
+select *
+from locations;
+
+
+//5 using substr
+select city, country_id, nvl(state_province,'Unknown Province')
+from locations
+where substr(
+//5
+
+//5 easier method
+select city, country_id, nvl(state_province,'Unknown Province')
+from locations
+where length(city) > 8 AND city LIKE 'S%';
+//5
+//6 Review date is 1st Tuesday after first hiring
+select last_name, hire_date, TO_CHAR(next_day((add_months(hire_date,12)),'TUESDAY'),'fmDAY,Month "the" Ddspth "of year" YYYY') "REVIEW DATE"
+from employees
+where hire_date >'97-01-01';
+//6
+

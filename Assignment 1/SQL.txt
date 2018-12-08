@@ -1,0 +1,104 @@
+select * from movie;
+//1
+update movie
+set movie_year = 2008
+where movie_num = 1245;
+//1
+
+//2
+update movie
+set price_code = 3
+where movie_genre ='ACTION';
+//2
+
+//3
+update price
+set price_rentfee = price_rentfee + 0.5;
+//3
+
+//4
+select movie_title,movie_year,movie_genre
+from movie;
+//4
+
+//5
+select movie_year,movie_title,movie_cost
+from movie
+order by 1 desc;
+//5
+
+//15
+select movie_genre, trunc(avg(movie_cost),2) "Average Cost"
+from movie
+group by movie_genre;
+//15
+
+//16
+select movie_title, movie_genre, price_description, price_rentfee
+from movie m, price p
+where m.price_code = p.price_code;
+//16
+
+
+//17 
+select movie_genre, avg(price_rentfee) "Average Rental Fee"
+from movie m, price p
+where m.price_code = p.price_code
+group by movie_genre;
+//17
+
+//18
+select movie_title,movie_year, round(movie_cost/price_rentfee,2) "Breakeven Rentals"
+from movie m, price p
+where m.price_code = p.price_code;
+//18
+
+//19
+select movie_title, movie_year
+from movie
+where price_code is NOT NULL;
+//19
+
+//20
+select movie_title, movie_year, movie_cost
+from movie
+where movie_cost BETWEEN 44.99 AND 49.99;
+//20
+
+//21
+select movie_title, movie_year, price_description, p.price_rentfee, movie_genre
+from movie JOIN price p
+using(price_code)
+where movie_genre IN ('FAMILY','COMEDY','DRAMA');
+//21
+
+//22
+select movie_num, m.movie_title, m.movie_year
+from movie m LEFT JOIN video v
+using (movie_num)
+where vid_num IS NULL;
+//22
+
+//23
+select distinct mem_num, m.mem_fname, m.mem_lname, m.mem_balance
+from membership m left JOIN rental r
+using(mem_num)
+where r.rent_num is NOT NULL
+order by 1;
+//23
+
+select * from rental;
+select * from membership;
+
+//24 Avg balance not same as pictures
+select min(mem_balance) "Minimum Balance" , max(mem_balance) "Maximum Balance", round(avg(mem_balance),2) "Average Balance"
+from membership m left join rental r
+using(mem_num)
+where rent_num is NOT NULL;
+//24
+
+select * from membership;
+//25
+select trim(mem_fname) ||' ' || trim(mem_lname) "Membership Name", trim(mem_street) || ' ' || trim(mem_city) || ' ' || trim(mem_zip) "Membership Address"
+from membership;
+//25

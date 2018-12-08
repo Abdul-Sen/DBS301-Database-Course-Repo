@@ -1,0 +1,69 @@
+describe employees;
+select * from employees;
+//1 done
+select employee_id, last_name, salary
+from employees
+where salary BETWEEN 8000 AND 15000
+order by salary desc, last_name; 
+//1
+
+select last_name from employees
+order by last_name desc;
+
+//2 Done
+select employee_id, last_name, salary, job_id
+from employees
+where (salary BETWEEN 8000 AND 15000)
+AND   (job_id IN('IT_PROG','SA_REP'))
+order by salary desc, last_name;
+//2
+
+//3 done
+select employee_id, last_name, salary, job_id
+from employees
+where (salary NOT BETWEEN 8000 AND 15000)
+AND   (job_id IN('IT_PROG','ST_CLERK'))
+order by salary desc, last_name;
+//3
+
+//4
+select last_name, job_id, salary, hire_date
+from employees
+where hire_date <'98-01-01'
+order by hire_date desc;
+//4
+
+//5
+select last_name, job_id, salary, hire_date
+from employees
+where hire_date <'98-01-01'
+AND salary >10000
+order by job_id,salary, hire_date desc;
+//5
+
+//4
+select last_name, job_id, salary, hire_date
+from employees
+where hire_date <'98-01-01'
+order by hire_date desc;
+//4
+
+//6
+select job_id as "Job Title", trim(first_name) || ' ' || trim(last_name) as "Full Name"
+from employees
+where UPPER('Full Name') LIKE '%E%';
+//6
+
+//7
+select last_name, salary,commission_pct
+from employees
+where commission_pct is not nul
+order by salary desc;
+//7
+
+//8
+select last_name, salary,commission_pct
+from employees
+where commission_pct is not null
+order by 2 desc;
+//8

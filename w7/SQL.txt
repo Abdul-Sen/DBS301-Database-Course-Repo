@@ -1,0 +1,53 @@
+
+//1
+select employee_id, last_name, salary
+from employees
+where salary >(select avg(salary)
+                from employees)
+order by salary asc;
+//1
+
+//2
+select employee_id, last_name
+from employees
+where department_id IN (select department_id
+        from employees
+        where last_name LIKE '%u%');
+//2
+
+//3
+select last_name, department_id, employee_id
+from employees
+where department_id IN (select department_id
+                        from departments
+                        where location_id = 1700);
+//3
+
+//4
+select last_name, salary
+from employees
+where manager_id = (select employee_id
+                    from employees
+                    where last_name = 'King');
+//4
+//5
+select department_id, last_name, job_id
+from employees
+where department_id = (select department_id
+                        from departments
+                        where department_name  = 'Executive');
+//5
+
+//6
+select department_id
+from departments
+UNION
+select department_id
+from employees
+where department_id NOT IN (select department_id
+                            from employees
+                            where job_id = 'ST_CLERK');
+//6
+select * from employees;
+select * from locations;
+select * from departments;

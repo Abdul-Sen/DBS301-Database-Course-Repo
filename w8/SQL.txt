@@ -1,0 +1,68 @@
+select first_name as "firstname" from employees;
+
+CREATE TABLE employees2
+AS (SELECT EMPLOYEE_ID as "ID", FIRST_NAME , LAST_NAME, SALARY, DEPARTMENT_ID "DEPT_ID"
+    FROM employees);
+    
+select * from employees2;
+
+ALTER TABLE employees2 READ ONLY;
+
+INSERT INTO employees2 values (34, 'Grant', 'Marcie', 5678, 10);
+
+ALTER TABLE employees2 READ WRITE;
+INSERT INTO employees2 values (34, 'Grant', 'Marcie', 5678, 10);
+select * from employees2
+where id = 34;
+
+drop table employees2;
+
+CREATE VIEW EMPLOYEES_VU
+AS select employee_id, last_name "EMPLOYEE", department_id
+from employees;
+
+select * from employees_vu;
+
+select employee, department_id
+from employees_vu;
+
+create view DEPT50 AS
+select employee_id "EMPNO", last_name "EMPLOYEE", department_id "DEPTNO"
+from employees
+where department_id = 50
+WITH CHECK OPTION CONSTRAINT dept50_ck;
+
+select * from dept50;
+
+update dept50
+set deptno = 80
+where employee = 'Matos';
+select * from dept50;
+CREATE SEQUENCE DEPT_ID_SEQ
+INCREMENT BY 10
+START WITH 200
+MAXVALUE 1000;
+
+create table DEPT as
+(select * from departments);
+
+INSERT INTO DEPT
+VALUES (DEPT_ID_SEQ.NEXTVAL,
+'Education',900, 9000);
+
+INSERT INTO DEPT
+VALUES (DEPT_ID_SEQ.NEXTVAL,
+'Administration',900, 9000);
+
+select * from dept
+order by department_id desc;
+
+select DEPT_ID_SEQ.CURRVAL
+from dual;
+
+CREATE INDEX dept_name_index
+ON dept(department_name);
+
+CREATE SYNONYM EMP
+FOR EMPLOYEES;
+

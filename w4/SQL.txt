@@ -1,0 +1,54 @@
+select *
+from employees;
+
+//1 is this what Q1 is asking?
+
+select avg(salary)- min(salary) "Real Amount"
+from employees;
+//1
+
+//2
+select department_id "Dep ID", max(salary) "High", min(salary) "Low", round(avg(salary),0) "Average"
+from employees
+group by department_id
+order by 4 desc;
+//2
+
+//3
+select department_id "Dept#", job_id "Job", count(job_id) "How many"
+from employees
+group by department_id, job_id
+having count(job_id) > 1
+order by 3 desc;
+//3
+
+//4
+select job_id, sum(salary) "sum salary"
+from employees
+where job_id NOT IN('AD_PRES','AD_VP')
+group by job_id
+having sum(salary)>15000
+order by 2 desc;
+//4
+
+//5
+select manager_id, count(manager_id)
+from employees
+where manager_id NOT IN(100,101,102)
+HAVING count(manager_id) >2
+group by manager_id
+order by 2 desc;
+//5
+
+
+select * from employees;
+//6
+select department_id, MAX(hire_date) "Junior employees", min(hire_date) "Senior employees"
+from employees
+where department_id NOT IN (10,20)
+AND hire_date<'00-01-01'
+group by department_id
+order by 2 desc;
+
+/**/
+//6

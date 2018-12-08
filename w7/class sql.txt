@@ -1,0 +1,50 @@
+select * from employees;
+
+select last_name, job_id, salary
+from employees
+where salary > (select salary   
+                from employees
+                where last_name = 'Gietz');
+                
+
+
+select last_name, job_id, salary, employee_id
+from employees
+where job_id =(select job_id
+                from employees
+                where employee_id = 141)
+                AND
+                salary > (select salary
+                        from employees
+                        where employee_id = 143);
+                        
+select              (select min(salary) 
+                    from employees);
+                    
+select job_id, avg(salary)
+from employees
+group by job_id
+having avg(salary) = (select min(avg(salary))
+                        from employees
+                        group by job_id);
+                        
+select employee_id, last_name, salary
+from employees
+where salary  IN (select min(salary)
+                    from employees
+                    group by department_id);
+ 
+ select last_name, job_id, salary
+ from employees
+ where job_id =
+                    (select job_id
+                    from employees
+                    where last_name = 'Hass');
+                    
+                    
+SELECT EMPLOYEE_ID, LAST_NAME, SALARY, JOB_ID
+FROM EMPLOYEES
+WHERE SALARY >ALL (select salary
+                    from employees
+                    where job_id = 'IT_PROG');
+SELECT * FROM JOB_HISTORY;
