@@ -4,4 +4,4 @@ DBS301 is a 3rd semester database course where we work with Oracle SQL Developer
 
 # This Repository Strucutre
 
-'w' stands for each week. Each week has a lecture and a lab. All labs have been done and can be accessed through their respective weeks
+`w` stands for each week. Each week has a lecture and a `lab`. All labs have been done and can be accessed through their respective weeks
